@@ -42,14 +42,18 @@ class apache::params {
     $dev_packages         = 'httpd-devel'
     $default_ssl_cert     = '/etc/pki/tls/certs/localhost.crt'
     $default_ssl_key      = '/etc/pki/tls/private/localhost.key'
-    $ssl_certs_dir        = $distrelease ? {
-      '5' => '/etc/pki/tls/certs',
-      '6' => '/etc/ssl/certs',
+    if $::operatingsystem == 'Fedora' {
+      $ssl_certs_dir      = '/etc/ssl/certs'
+    } else { 
+      $ssl_certs_dir      = $distrelease ? {
+        '5' => '/etc/pki/tls/certs',
+        '6' => '/etc/ssl/certs',
+      }
     }
     $passenger_root       = '/usr/share/rubygems/gems/passenger-3.0.17'
     $passenger_ruby       = '/usr/bin/ruby'
     if $::operatingsystem == 'Fedora' {
-      $mod_packages         = {
+      $mod_packages       = {
         'auth_kerb'  => 'mod_auth_kerb',
         'fcgid'      => 'mod_fcgid',
         'ldap'       => 'mod_ldap',
@@ -62,7 +66,7 @@ class apache::params {
         'wsgi'       => 'mod_wsgi',
       }
     } else {
-      $mod_packages         = {
+      $mod_packages       = {
         'auth_kerb'  => 'mod_auth_kerb',
         'fcgid'      => 'mod_fcgid',
         'passenger'  => 'mod_passenger',
