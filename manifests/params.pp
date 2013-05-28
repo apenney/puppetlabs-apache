@@ -78,9 +78,13 @@ class apache::params {
         'wsgi'       => 'mod_wsgi',
       }
     }
-    $mod_packages['php5'] = $distrelease ? {
-      '5' => 'php53',
-      '6' => 'php',
+    if $::operatingsystem == 'Fedora' {
+      $mod_packages['php5'] = 'php'
+    } else {
+      $mod_packages['php5'] = $distrelease ? {
+        '5'     => 'php53',
+        '6'     => 'php',
+      }
     }
     $mod_libs             = {
       'php5' => 'libphp5.so',
