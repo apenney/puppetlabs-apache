@@ -3,11 +3,11 @@ class apache::default_mods {
     'debian': {
       include apache::mod::cgid # Debian uses mpm_worker
       include apache::mod::reqtimeout
+      apache::mod { 'authz_default': }
     }
     'redhat': {
       include apache::mod::cgi # RedHat uses mpm_prefork
       include apache::mod::cache
-      include apache::mod::disk_cache
       include apache::mod::info
       include apache::mod::ldap
       include apache::mod::mime_magic
@@ -15,9 +15,11 @@ class apache::default_mods {
       include apache::mod::proxy_http
       include apache::mod::userdir
       if $::operatingsystem != 'Fedora' {
+        include apache::mod::disk_cache
         apache::mod { 'authn_alias': }
         apache::mod { 'authn_default': }
         apache::mod { 'authnz_ldap': }
+        apache::mod { 'authz_default': }
       }
       apache::mod { 'actions': }
       apache::mod { 'auth_digest': }
@@ -56,7 +58,6 @@ class apache::default_mods {
   include apache::mod::status
   apache::mod { 'auth_basic': }
   apache::mod { 'authn_file': }
-  apache::mod { 'authz_default': }
   apache::mod { 'authz_groupfile': }
   apache::mod { 'authz_host': }
   apache::mod { 'authz_user': }
