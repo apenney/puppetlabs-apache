@@ -48,16 +48,31 @@ class apache::params {
     }
     $passenger_root       = '/usr/share/rubygems/gems/passenger-3.0.17'
     $passenger_ruby       = '/usr/bin/ruby'
-    $mod_packages         = {
-      'auth_kerb'  => 'mod_auth_kerb',
-      'fcgid'      => 'mod_fcgid',
-      'passenger'  => 'mod_passenger',
-      'perl'       => 'mod_perl',
-      'proxy_html' => 'mod_proxy_html',
-      'python'     => 'mod_python',
-      'shibboleth' => 'shibboleth',
-      'ssl'        => 'mod_ssl',
-      'wsgi'       => 'mod_wsgi',
+    if $::operatingsystem == 'Fedora' {
+      $mod_packages         = {
+        'auth_kerb'  => 'mod_auth_kerb',
+        'fcgid'      => 'mod_fcgid',
+        'ldap'       => 'mod_ldap',
+        'passenger'  => 'mod_passenger',
+        'perl'       => 'mod_perl',
+        'proxy_html' => 'mod_proxy_html',
+        'python'     => 'mod_python',
+        'shibboleth' => 'shibboleth',
+        'ssl'        => 'mod_ssl',
+        'wsgi'       => 'mod_wsgi',
+      }
+    } else {
+      $mod_packages         = {
+        'auth_kerb'  => 'mod_auth_kerb',
+        'fcgid'      => 'mod_fcgid',
+        'passenger'  => 'mod_passenger',
+        'perl'       => 'mod_perl',
+        'proxy_html' => 'mod_proxy_html',
+        'python'     => 'mod_python',
+        'shibboleth' => 'shibboleth',
+        'ssl'        => 'mod_ssl',
+        'wsgi'       => 'mod_wsgi',
+      }
     }
     $mod_packages['php5'] = $distrelease ? {
       '5' => 'php53',
